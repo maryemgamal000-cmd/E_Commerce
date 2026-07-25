@@ -1,6 +1,8 @@
 ﻿using E_Commerce.Domain.Common;
 using E_Commerce.Domain.Contracts;
 using E_Commerce.Infrastructure.Data;
+using E_Commerce.Infrastructure.Specifications;
+using E_Commercr.Domain.Contracts;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,10 +16,29 @@ namespace E_Commerce.Infrastructure.Repositories
     {
         public void Add(TEntity entity) => dbContext.Set<TEntity>().Add(entity);
 
+        public async Task<int> CountAsync(ISpecifications<TEntity, TKey> Spec, CancellationToken ct = default)
+        {
+            return await SpecificationEvaluater.CreateQuery(dbContext.Set<TEntity>(), Spec).CountAsync(ct);
+        }
+
         public async Task<IReadOnlyList<TEntity>> GetAllAsync(CancellationToken ct = default)
                         => await dbContext.Set<TEntity>().ToListAsync(ct);
+
+        public async Task<IReadOnlyList<TEntity>> GetAllAsync(ISpecifications<TEntity, TKey> Spec, CancellationToken ct = default)
+        {
+            var query = SpecificationEvaluater.CreateQuery(dbContext.Set<TEntity>(), Spec);
+
+            return await query.ToListAsync(ct);
+        }
+
         public async Task<TEntity?> GetByIdAsync(TKey id, CancellationToken ct = default)
                 => await dbContext.Set<TEntity>().FindAsync(id , ct);
+
+        public async Task<TEntity?> GetByIdAsync(ISpecifications<TEntity, TKey> spec, CancellationToken ct = default)
+        {
+            var query = SpecificationEvaluater.CreateQuery(dbContext.Set<TEntity>(), spec);
+            return await query.FirstOrDefaultAsync(ct);
+        }
 
         public void Remove(TEntity entity) => dbContext.Set<TEntity>().Remove(entity);
 
