@@ -5,6 +5,9 @@ using E_Commerce.Application;
 using E_Commerce.Application.Profiles;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.FileProviders;
+using E_Commerce.Infrastructure.Identity.Entities;
+using Microsoft.AspNetCore.Identity;
+using E_Commerce.Infrastructure.Identity.Services;
 
 namespace E_Commerce.API
 {
@@ -21,8 +24,13 @@ namespace E_Commerce.API
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddApplicationServices();
             builder.Services.Configure<UrlSettings>(builder.Configuration.GetSection("UrlSettings"));
+            builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JWT"));
+
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+           
+
 
             var app = builder.Build();
 
@@ -44,6 +52,7 @@ namespace E_Commerce.API
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
 

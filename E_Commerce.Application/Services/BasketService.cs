@@ -2,8 +2,8 @@
 using E_Commerce.Application.Common;
 using E_Commerce.Application.Contracts;
 using E_Commerce.Application.DTOs.Baskets;
-using E_Commercr.Domain.Contracts;
-using E_Commercr.Domain.Entities.Baskets;
+using E_Commerce.Domain.Contracts;
+using E_Commerce.Domain.Entities.Baskets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
