@@ -8,6 +8,8 @@ using Microsoft.Extensions.FileProviders;
 using E_Commerce.Infrastructure.Identity.Entities;
 using Microsoft.AspNetCore.Identity;
 using E_Commerce.Infrastructure.Identity.Services;
+using E_Commerce.Application.Contracts;
+using E_Commerce.Application.Common;
 
 namespace E_Commerce.API
 {
@@ -25,6 +27,8 @@ namespace E_Commerce.API
             builder.Services.AddApplicationServices();
             builder.Services.Configure<UrlSettings>(builder.Configuration.GetSection("UrlSettings"));
             builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JWT"));
+            builder.Services.Configure<PaymentGatewaySettings>(builder.Configuration.GetSection("Stripe"));
+
 
 
             builder.Services.AddEndpointsApiExplorer();

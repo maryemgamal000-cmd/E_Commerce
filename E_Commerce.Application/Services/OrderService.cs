@@ -37,6 +37,9 @@ namespace E_Commerce.Application.Services
             if (basket.Items.Count == 0)
                 return Error.Validation("Basket Is Empty", $"Can Not Create Order With Basket id {basket.Id}");
 
+            var existingOrder = await _unitOfWork.GetRepository<Order, Guid>().GetByIdAsync(new PaymentIntentSpecefications(basket.PaymentIntentId), ct);
+            if (existingOrder is not null)
+                _unitOfWork.GetRepository<Order, Guid>().Remove(existingOrder);
             // Items (Order Item)
             var orderItems = new List<OrderItem>(basket.Items.Count);
             var productIds = basket.Items.Select(x => x.Id).ToHashSet();
@@ -75,8 +78,11 @@ namespace E_Commerce.Application.Services
             // Sub Total
             var subTotal = orderItems.Sum(x => x.Quantity * x.Price);
 
+            //if (string.IsNullOrEmpty(basket.PaymentIntentId))
+            //    return Error.Validation("Payment Intent Missing", "Payment intent must be created before placing order");
+
             // Create Order
-            var order = new Order(email, orderAddress, orderItems, deliveryMethod, subTotal);
+            var order = new Order(email, orderAddress, orderItems, deliveryMethod, subTotal , basket.PaymentIntentId);
 
             _unitOfWork.GetRepository<Order, Guid>().Add(order); // Local
             var result = await _unitOfWork.SaveChangesAsync(ct);

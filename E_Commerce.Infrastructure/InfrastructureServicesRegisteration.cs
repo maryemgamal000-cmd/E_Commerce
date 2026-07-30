@@ -14,6 +14,7 @@ using E_Commerce.Infrastructure.Identity.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using E_Commerce.Infrastructure.Payments;
 
 namespace E_Commerce.Infrastructure
 {
@@ -50,6 +51,8 @@ namespace E_Commerce.Infrastructure
             services.AddScoped<IIdentityService , IdentityService>();
             services.AddScoped<ITokenService, TokenService>();
 
+
+
             var jwtSettings = configuration.GetSection("Jwt").Get<JwtSettings>()
                    ?? throw new InvalidOperationException("Jwt Settings Is Missing");
 
@@ -73,6 +76,7 @@ namespace E_Commerce.Infrastructure
                     ClockSkew = TimeSpan.Zero
                 };
             });
+            services.AddScoped<IPaymentGateway, StripePaymentGateway>();
 
             return services;
         }
