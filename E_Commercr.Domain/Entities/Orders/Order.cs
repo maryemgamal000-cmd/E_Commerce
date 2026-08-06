@@ -15,7 +15,7 @@ namespace E_Commerce.Domain.Entities.Orders
         {
         }
 
-        public Order(string buyerEmail, OrderAddress shipToAddress, ICollection<OrderItem> items, DeliveryMethod deliveryMethod, decimal subTotal)
+        public Order(string buyerEmail, OrderAddress shipToAddress, ICollection<OrderItem> items, DeliveryMethod deliveryMethod, decimal subTotal , string paymentIntentId)
         {
             BuyerEmail = buyerEmail;
             ShipToAddress = shipToAddress;
@@ -23,6 +23,7 @@ namespace E_Commerce.Domain.Entities.Orders
             DeliveryMethod = deliveryMethod;
             DeliveryMethodId = deliveryMethod.Id; 
             SubTotal = subTotal;
+            PaymentIntentId = paymentIntentId;
         }
 
         public string BuyerEmail { get; set; } = default!;
@@ -33,6 +34,7 @@ namespace E_Commerce.Domain.Entities.Orders
         public DateTimeOffset OrderDate { get; set; } = DateTimeOffset.UtcNow;
         public OrderStatus Status { get; set; } = OrderStatus.Pending;
         public int DeliveryMethodId { get; set; } // FK
+        public string? PaymentIntentId { get; set; } = default!;
         public decimal GetTotal() => SubTotal + (DeliveryMethod?.Cost ?? 0);
 
 
