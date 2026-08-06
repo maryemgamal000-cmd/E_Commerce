@@ -20,6 +20,25 @@ namespace E_Commerce.Application.Services
             _tokenService = tokenService;
         }
 
+        public async  Task<Result<bool>> CheckEmailExistsAsync(string email, CancellationToken ct = default)
+        => await _identityService.EmailExistsAsync(email, ct);
+
+        public async Task<Result<UserDto>> GetCurrentUserAsync(string email, CancellationToken ct = default)
+        {
+            var userResult = await _identityService.FindUserByEmailAsync(email, ct);
+
+            var user = userResult.data;
+            var roleResult = await _identityService.GetUserRoles(email, ct);
+
+            var token = _tokenService.CreateToken(user.Id, user.Email, user.UserName, roleResult.data);
+            return new UserDto() { DisplayName = user.DisplayName, Email = email, Token = token };
+        }
+
+        public Task<Result<AddressDto>> GetUserAddressAsync(string email, CancellationToken ct = default)
+        {
+            return _identityService.GetUserAddressByEmailAsync(email, ct);
+        }
+
         public async Task<Result<UserDto>> LoginAsync(LoginDto loginDto, CancellationToken ct = default)
         {
             // Get User By Email
@@ -64,6 +83,10 @@ namespace E_Commerce.Application.Services
 
             var user = userResult.data;
             var rolesResult = await _identityService.GetUserRoles(user.Email);
+            if (!rolesResult.IsSuccess)
+            {
+                return Result<UserDto>.Fail(rolesResult.Errors);
+            }
             var roles = rolesResult.data;
             var token = _tokenService.CreateToken(user.Id, user.Email, user.UserName, roles);
 
@@ -73,6 +96,11 @@ namespace E_Commerce.Application.Services
                 DisplayName = user.DisplayName,
                 Token = token
             });
+        }
+
+        public async Task<Result<AddressDto>> UpSertUserAddressAsync(string email, AddressDto addressDto, CancellationToken ct = default)
+        {
+            return await _identityService.UpdateOrInsertUserAddressAsync(email, addressDto, ct);
         }
     }
 }
