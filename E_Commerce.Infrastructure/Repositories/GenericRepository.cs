@@ -2,7 +2,7 @@
 using E_Commerce.Domain.Contracts;
 using E_Commerce.Infrastructure.Data;
 using E_Commerce.Infrastructure.Specifications;
-using E_Commercr.Domain.Contracts;
+using E_Commerce.Domain.Contracts;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

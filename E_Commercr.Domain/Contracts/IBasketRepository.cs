@@ -1,11 +1,11 @@
-﻿using E_Commercr.Domain.Entities.Baskets;
+﻿using E_Commerce.Domain.Entities.Baskets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace E_Commercr.Domain.Contracts
+namespace E_Commerce.Domain.Contracts
 {
     public interface IBasketRepository
     {

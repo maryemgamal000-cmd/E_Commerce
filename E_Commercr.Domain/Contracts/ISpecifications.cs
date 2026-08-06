@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace E_Commercr.Domain.Contracts
+namespace E_Commerce.Domain.Contracts
 {
     public interface ISpecifications<TEntity , TKey> where TEntity : BaseEntity<TKey>
     {

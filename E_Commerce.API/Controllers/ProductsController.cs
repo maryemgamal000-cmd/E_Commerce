@@ -2,6 +2,7 @@
 using E_Commerce.Application.Common;
 using E_Commerce.Application.Contracts;
 using E_Commerce.Application.DTOs.Products;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,6 +26,7 @@ namespace E_Commerce.API.Controllers
             return ToActionResult(result);
         }
         //Get Product By Id
+        [Authorize]
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
 

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace E_Commercr.Domain.Contracts
+namespace E_Commerce.Domain.Contracts
 {
     public interface IUnitOfWork
     {
