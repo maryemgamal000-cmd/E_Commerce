@@ -50,7 +50,7 @@ namespace E_Commerce.Infrastructure.DataSeeding
                 {
                     var admin = new ApplicationUser()
                     {
-                        DisplayName = "Aliaa Tarek",
+                        DisplayName = Aliaa Tarek",
                         Email = "Aliaa@gmail.com",
                         UserName = "aliaatarek",
                         PhoneNumber = "01265478536"
